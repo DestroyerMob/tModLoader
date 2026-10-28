@@ -16,6 +16,15 @@
  {
  	public enum ItemSacrificeResult
  	{
+@@ -78,7 +_,7 @@
+ 		if (!_initialized)
+ 			Initialize();
+ 
+-		if (Main.LocalPlayer.difficulty != 3) {
++		if (!IsAvailableFor(Main.LocalPlayer)) {
+ 			Enabled = false;
+ 		}
+ 		else if (!Blocked) {
 @@ -240,6 +_,9 @@
  		int amountNeededTotal = 0;
  		int amountWeHave = 0;
