@@ -23,13 +23,13 @@ public static class CreativeCategoryLoader
 	internal static void FinishSetup()
 	{
 		// The menu is built once at startup, before mods load.
-		Main.CreativeMenu.ResetForModReload();
+		Main.CreativeMenu.ResetMenu();
 	}
 
 	internal static void Unload()
 	{
 		// Drop the menu before mods unload, so it no longer references their categories or any changes they made to it.
-		Main.CreativeMenu.ResetForModReload();
+		Main.CreativeMenu.ResetMenu();
 		categories.Clear();
 	}
 }

@@ -24,7 +24,7 @@
  {
  	public static class BuilderAccToggleIDs
  	{
-@@ -252,21 +_,34 @@
+@@ -252,21 +_,36 @@
  		public static void PlayerConnect(int playerIndex)
  		{
  			PressurePlateHelper.ResetPlayer(playerIndex);
@@ -55,6 +55,8 @@
  
 +				// Added by TML.
 +				Social.Steam.SteamedWraps.BeginPlaytimeTracking();
++				// Rebuilt for each world, so ModSystem.CanShowCreativeCategory can depend on the player and world.
++				Main.CreativeMenu.ResetMenu();
 +			}
 +
  			if (playerIndex == Main.myPlayer)
@@ -1673,6 +1675,15 @@
  	public static byte FindClosest(Vector2 Position, int Width, int Height)
  	{
  		byte result = 0;
+@@ -3407,7 +_,7 @@
+ 
+ 	public void ToggleCreativeMenu()
+ 	{
+-		if (!dead && difficulty == 3) {
++		if (!dead && CreativeUI.IsAvailableFor(this)) {
+ 			if (Main.playerInventory && !Main.CreativeMenu.Blocked) {
+ 				Main.CreativeMenu.ToggleMenu();
+ 				return;
 @@ -3496,7 +_,10 @@
  			if (whoAmI == Main.myPlayer && theItemWeDrop.type == 5095)
  				LucyAxeMessage.Create(LucyAxeMessage.MessageSource.ThrownAway, base.Top, new Vector2(direction * 7, -2f));

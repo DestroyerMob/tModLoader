@@ -475,6 +475,20 @@ public static partial class SystemLoader
 		return true;
 	}
 
+	public static bool? CanUseCreativeMenu(Player player)
+	{
+		bool? result = null;
+		foreach (var system in HookCanUseCreativeMenu.Enumerate()) {
+			bool? canUse = system.CanUseCreativeMenu(player);
+			if (canUse == false)
+				return false;
+
+			result ??= canUse;
+		}
+
+		return result;
+	}
+
 	public static void PostDrawInterface(SpriteBatch spriteBatch)
 	{
 		foreach (var system in HookPostDrawInterface.Enumerate()) {
