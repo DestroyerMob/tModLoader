@@ -1603,6 +1603,15 @@ Mods: {
 			FreeBaitBuilderToggle.NameText: 免费鱼饵：{0}
 		}
 
+		CreativeCategories: {
+			ExampleCreativeCategory: {
+				// DisplayName: Example Category
+				// Description: Heal yourself or restore your mana.
+				// Heal: Heal
+				// RestoreMana: Restore Mana
+			}
+		}
+
 		# This is the command names for mod emotes
 		# It is suggested to use a prefix like ex- for all emotes of your mod to avoid name collisions
 		# If there is a collision, one will just override the other
