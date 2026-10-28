@@ -137,6 +137,8 @@ partial class SystemLoader
 
 	private static HookList HookPostDrawTiles = AddHook<Action>(s => s.PostDrawTiles);
 
+	private static HookList HookPostDrawDust = AddHook<Action>(s => s.PostDrawDust);
+
 	private static HookList HookModifyTimeRate = AddHook<DelegateModifyTimeRate>(s => s.ModifyTimeRate);
 
 	private static HookList HookPreWorldGen = AddHook<Action>(s => s.PreWorldGen);

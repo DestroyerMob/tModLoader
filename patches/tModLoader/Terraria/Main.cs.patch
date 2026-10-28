@@ -7051,6 +7051,14 @@
  		HasInteractableObjectThatIsNotATile = false;
  		SortDrawCacheWorms();
  		DrawSuperSpecialProjectiles(DrawCacheFirstFractals);
+@@ -55253,6 +_,7 @@
+ 
+ 		spriteBatch.End();
+ 		DrawDust();
++		SystemLoader.PostDrawDust();
+ 		spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, DefaultSamplerState, DepthStencilState.None, Rasterizer, null, Transform);
+ 		DrawProjectileHitboxes();
+ 		DrawNPCAggro();
 @@ -55280,9 +_,10 @@
  		MoonlordDeathDrama.DrawWhite(spriteBatch);
  		ScreenObstruction.Draw(spriteBatch);

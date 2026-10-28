@@ -309,6 +309,12 @@ public abstract partial class ModSystem : ModType
 	public virtual void PostDrawTiles() { }
 
 	/// <summary>
+	/// Called after drawing dust, which is drawn after gore, items, players, projectiles and NPCs. Can be used for drawing visual effects that should appear above dust. Note that spritebatch should be begun and ended within this method.
+	/// <para/> Called on all clients.
+	/// </summary>
+	public virtual void PostDrawDust() { }
+
+	/// <summary>
 	/// Called after all other time calculations. Can be used to modify the speed at which time should progress per tick in seconds, along with the rate at which the tiles in the world and the events in the world should update with it.
 	/// All fields are measured in in-game minutes per real-life second (min/sec).
 	/// You may want to consider <see cref="Main.IsFastForwardingTime"/> and CreativePowerManager.Instance.GetPower&lt;CreativePowers.FreezeTime&gt;().Enabled here.
