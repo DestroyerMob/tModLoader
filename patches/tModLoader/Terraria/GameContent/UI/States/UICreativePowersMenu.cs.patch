@@ -1,0 +1,28 @@
+--- src/TerrariaNetCore/Terraria/GameContent/UI/States/UICreativePowersMenu.cs
++++ src/tModLoader/Terraria/GameContent/UI/States/UICreativePowersMenu.cs
+@@ -10,7 +_,7 @@
+ 
+ namespace Terraria.GameContent.UI.States;
+ 
+-public class UICreativePowersMenu : UIState
++public partial class UICreativePowersMenu : UIState
+ {
+ 	private class MenuTree<TEnum> where TEnum : struct, IConvertible
+ 	{
+@@ -185,6 +_,7 @@
+ 		groupOptionButton5.OnUpdate += personalCategoryButton_OnUpdate;
+ 		mainCategory.Buttons.Add(6, groupOptionButton5);
+ 		list.Add(groupOptionButton5);
++		AddModCategoryButtons(request, list);
+ 		CreativePowerManager.Instance.GetPower<CreativePowers.StopBiomeSpreadPower>().ProvidePowerButtons(request, list);
+ 		GroupOptionButton<int> groupOptionButton6 = CreateSubcategoryButton<CreativePowers.DifficultySliderPower>(ref request, 1, "strip 1", 5, 0, mainCategory.Buttons, mainCategory.Sliders);
+ 		groupOptionButton6.OnLeftClick += MainCategoryButtonClick;
+@@ -435,6 +_,8 @@
+ 			if (personalCategory.Sliders.TryGetValue(personalCategory.CurrentOption, out value))
+ 				_container.Append(value);
+ 		}
++
++		RefreshModCategoryContent();
+ 	}
+ 
+ 	public override void Draw(SpriteBatch spriteBatch)

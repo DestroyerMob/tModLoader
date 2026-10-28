@@ -2,6 +2,21 @@ namespace Terraria.GameContent.Creative;
 
 public partial class CreativeUI
 {
+	/// <summary>
+	/// The main category selected in the power menu, or 0 if none is.
+	/// </summary>
+	internal int CurrentMainCategory => _uiState?.CurrentMainCategory ?? 0;
+
+	/// <summary>
+	/// Discards the power menu so it's built again on the next draw, picking up modded categories and anything mods change while it's built.
+	/// </summary>
+	internal void ResetForModReload()
+	{
+		_powersUI.SetState(null);
+		_uiState = null;
+		_initialized = false;
+	}
+
 	public static ItemSacrificeResult ResearchItem(int type)
 	{
 		if (!CreativeItemSacrificesCatalog.Instance.TryGetSacrificeCountCapToUnlockInfiniteItems(type, out int amountNeeded))

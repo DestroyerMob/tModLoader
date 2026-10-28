@@ -772,6 +772,10 @@
 		"PreviousInfoAccPage": "前のページへ",
 		"FirstInfoAccPage": "最初のページへ",
 		"LastInfoAccPage": "最後のページへ"
+
+		// Journey Mode power menu
+		// "OpenCreativeCategory": "Open {0}",
+		// "CloseCreativeCategory": "Close {0}"
 	},
 	"CommonItemTooltip": {
 		"IncreasesDefenseBy": "防御力を {0} 増加",
@@ -914,6 +918,7 @@
 		"SeedNotInfected": "Purify this world世界ではない",
 		"SeedNotTeamBasedSpawns": "Royale with cheese世界ではない",
 		"SeedNotDualDungeons": "Double daring dangers世界ではない",
+		// "SeedFeatureMechdusa": "In a world with Mechdusa",
 
 		"Christmas": "クリスマス期間",
 		"Halloween": "ハロウィン期間",

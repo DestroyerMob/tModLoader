@@ -774,6 +774,10 @@
 		"PreviousInfoAccPage": "上一页",
 		"FirstInfoAccPage": "转到第一页",
 		"LastInfoAccPage": "转到最后一页"
+
+		// Journey Mode power menu
+		// "OpenCreativeCategory": "Open {0}",
+		// "CloseCreativeCategory": "Close {0}"
 	},
 	"CommonItemTooltip": {
 		"IncreasesDefenseBy": "防御力增加{0}点",
@@ -916,6 +920,7 @@
 		"SeedNotInfected": "不在“世界被感染”世界",
 		"SeedNotTeamBasedSpawns": "不在“团队生成点”世界",
 		"SeedNotDualDungeons": "不在“对偶地牢”世界",
+		// "SeedFeatureMechdusa": "In a world with Mechdusa",
 
 		"Christmas": "圣诞节期间",
 		"Halloween": "万圣节期间",
