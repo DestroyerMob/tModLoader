@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Terraria.GameContent.Creative;
 using Terraria.GameContent.UI.Elements;
 using Terraria.ModLoader;
@@ -24,6 +25,17 @@ public partial class UICreativePowersMenu
 			button.OnUpdate += affectedElement => ModCategoryButton_OnUpdate(affectedElement, category);
 			_mainCategory.Buttons.Add(category.Type, button);
 			list.Add(button);
+		}
+	}
+
+	private void RemoveHiddenCategoryButtons(List<UIElement> list)
+	{
+		foreach (int category in _mainCategory.Buttons.Keys.ToList()) {
+			if (SystemLoader.CanShowCreativeCategory(category))
+				continue;
+
+			list.Remove(_mainCategory.Buttons[category]);
+			_mainCategory.Buttons.Remove(category);
 		}
 	}
 
