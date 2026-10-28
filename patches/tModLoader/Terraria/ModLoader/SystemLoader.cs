@@ -478,6 +478,13 @@ public static partial class SystemLoader
 		}
 	}
 
+	public static void PostDrawDust()
+	{
+		foreach (var system in HookPostDrawDust.Enumerate()) {
+			system.PostDrawDust();
+		}
+	}
+
 	public static void ModifyTimeRate(ref double timeRate, ref double tileUpdateRate, ref double eventUpdateRate)
 	{
 		foreach (var system in HookModifyTimeRate.Enumerate()) {

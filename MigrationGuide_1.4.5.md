@@ -655,4 +655,5 @@ In addition to changes to existing features and adapting to vanilla changes, 1.4
 * `Projectile.GetDefaultDrawData` helper method for calculating the default projectile draw parameters.
 * `ModSky` is an alternative to `CustomSky` that handles common boilerplate, making custom skies easier to implement and use.
 * `(Mod|Global)(Tile|Wall).(CanDoWireStuffHere|CanShowWireStuffHere)` hooks allow customizing wire interaction and visibility. One example is how wires in the Jungle Temple are hidden and can't be removed until Golem is defeated.
+* `ModSystem.PostDrawDust` allows drawing effects above dust, which previously needed a detour on `Main.DrawDust`.
 * `(Mod|Global)Liquid` is a net new feature class added in 1.4.5 to support new use cases. This addition comes with the caveat it is runtime breaking; all mods using ModWall or ModTile must be compiled on 1.4.5 to adapt to intertwined backend class hierachy changes to facilitate this.   
