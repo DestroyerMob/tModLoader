@@ -1896,6 +1896,16 @@
  					if (item.UseSound != null)
  						SoundEngine.PlaySound(item.UseSound, base.Center);
  				}
+@@ -4244,7 +_,8 @@
+ 
+ 	public bool CanFitSpace(int heightBoost)
+ 	{
+-		int num = 42 + heightBoost;
++		//int num = 42 + heightBoost;
++		int num = (int)GetBaseHitboxSize().Y + heightBoost; // TML: #ModifyHitboxSize
+ 		return Collision.IsClearSpotTest(position + new Vector2(0f, height - num) + velocity, 16f, width, num, fallThrough: true, fall2: true);
+ 	}
+ 
 @@ -4309,12 +_,20 @@
  	public Item QuickMount_GetItemToUse()
  	{
@@ -4874,6 +4884,43 @@
  	}
  
  	private void UpdateBrokenMirrorLuck()
+@@ -23784,11 +_,25 @@
+ 		}
+ 	}
+ 
++	/// <summary>
++	/// The size of this player's hitbox before mount and step stool height boosts, after <see cref="ModPlayer.ModifyHitboxSize"/>.
++	/// </summary>
++	public Vector2 GetBaseHitboxSize()
++	{
++		Vector2 size = new Vector2(defaultWidth, defaultHeight);
++		PlayerLoader.ModifyHitboxSize(this, ref size);
++		return size;
++	}
++
+ 	private void ResizeHitbox()
+ 	{
++		int oldWidth = width;
+ 		position.Y += height;
+-		width = 20;
+-		height = 42 + HeightOffsetBoost;
++		Vector2 baseSize = GetBaseHitboxSize();
++		//width = 20;
++		width = (int)baseSize.X; // TML: #ModifyHitboxSize
++		//height = 42 + HeightOffsetBoost;
++		height = (int)baseSize.Y + HeightOffsetBoost; // TML: #ModifyHitboxSize
+ 		if (mount.Active) {
+ 			Mount.MountDelegatesData.OverrideSizeMethod playerSize = mount.Delegations.PlayerSize;
+ 			if (playerSize != null && playerSize(this, out var size) && size.HasValue) {
+@@ -23797,6 +_,8 @@
+ 			}
+ 		}
+ 
++		// TML: Keep the bottom center in place when the width changes. #ModifyHitboxSize
++		position.X += (oldWidth - width) / 2f;
+ 		position.Y -= height;
+ 	}
+ 
 @@ -23889,6 +_,8 @@
  
  		if (wingsLogic == 45 && (float)timeSinceLastDashStarted >= 60f)
@@ -5137,6 +5184,20 @@
  	{
  		short frameX = Main.tile[myX, myY].frameX;
  		bool flag = frameX / 72 == 1;
+@@ -27433,8 +_,13 @@
+ 			Mount.MountDelegatesData.OverrideSizeMethod playerSize = mount.Delegations.PlayerSize;
+ 			if (playerSize != null && playerSize(this, out var size) && size.HasValue) {
+ 				Vector2 value = size.Value;
++				Vector2 baseSize = GetBaseHitboxSize();
++				/*
+ 				if (value.X < 20f || value.Y < 42f)
+ 					flag = CanFitInSpaceWithSize(DefaultSize, offset);
++				*/
++				if (value.X < baseSize.X || value.Y < baseSize.Y) // TML: #ModifyHitboxSize
++					flag = CanFitInSpaceWithSize(baseSize, offset);
+ 			}
+ 		}
+ 
 @@ -27519,7 +_,14 @@
  		}
  	}
