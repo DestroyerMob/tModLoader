@@ -772,6 +772,10 @@
 		"PreviousInfoAccPage": "Vorherige Seite",
 		"FirstInfoAccPage": "Gehe zur ersten Seite",
 		"LastInfoAccPage": "Gehe zur letzten Seite"
+
+		// Journey Mode power menu
+		// "OpenCreativeCategory": "Open {0}",
+		// "CloseCreativeCategory": "Close {0}"
 	},
 	"CommonItemTooltip": {
 		"IncreasesDefenseBy": "Erhöht die Abwehr um {0}",
@@ -914,6 +918,7 @@
 		// "SeedNotInfected": "Not in a Purify this world",
 		// "SeedNotTeamBasedSpawns": "Not in a Royale with cheese world",
 		// "SeedNotDualDungeons": "Not in a Double daring dangers world",
+		// "SeedFeatureMechdusa": "In a world with Mechdusa",
 
 		"Christmas": "Während Weihnachten",
 		"Halloween": "Während Halloween",

@@ -771,7 +771,11 @@
 		"NextInfoAccPage": "Next Page",
 		"PreviousInfoAccPage": "Previous Page",
 		"FirstInfoAccPage": "Go To First Page",
-		"LastInfoAccPage": "Go To Last Page"
+		"LastInfoAccPage": "Go To Last Page",
+
+		// Journey Mode power menu
+		"OpenCreativeCategory": "Open {0}",
+		"CloseCreativeCategory": "Close {0}"
 	},
 	"CommonItemTooltip": {
 		"IncreasesDefenseBy": "Increases defense by {0}",

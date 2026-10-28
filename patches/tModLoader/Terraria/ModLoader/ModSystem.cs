@@ -3,6 +3,8 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using Terraria.GameContent.Creative;
+using Terraria.GameContent.UI.Elements;
 using Terraria.Graphics;
 using Terraria.ID;
 using Terraria.IO;
@@ -266,6 +268,32 @@ public abstract partial class ModSystem : ModType
 	/// </summary>
 	/// <param name="gameTips"> The current list of all added game tips. </param>
 	public virtual void ModifyGameTipVisibility(IReadOnlyList<GameTipData> gameTips) { }
+
+	/// <summary>
+	/// Allows you to modify the button the Journey Mode power menu creates for a power, such as God Mode or Freeze Time, for example to add a right click action, extra hover text or different colors.<para/>
+	/// <paramref name="button"/> is a <see cref="GroupOptionButton{T}"/> of <see cref="bool"/> for powers used by clicking them, and of <see cref="int"/> for powers that open a slider, such as Time Speed.
+	/// Use <see cref="CreativePowerManager.GetPower{T}"/> to check which power it belongs to.<br/>
+	/// Handlers you add to the button's events run after vanilla's, so colors set in <see cref="UIElement.OnUpdate"/> replace vanilla's. Use <see cref="ModifyCreativePowerHoverText"/> to change its hover text.<para/>
+	/// Called on clients each time the power menu is built, which happens when the game starts and whenever mods are reloaded.
+	/// </summary>
+	/// <param name="power">The power the button uses.</param>
+	/// <param name="button">The button, before it's added to the menu.</param>
+	public virtual void ModifyCreativePowerButton(ICreativePower power, UIElement button) { }
+
+	/// <summary>
+	/// Allows you to modify the hover text a Journey Mode power shows, both on its button and on its slider if it has one.<br/>
+	/// Called on clients every frame the power is hovered.
+	/// </summary>
+	/// <param name="power">The power being hovered. Use <see cref="CreativePowerManager.GetPower{T}"/> to check which power it is.</param>
+	/// <param name="text">The hover text, including the description and permission lines vanilla adds.</param>
+	public virtual void ModifyCreativePowerHoverText(ICreativePower power, ref string text) { }
+
+	/// <summary>
+	/// Allows you to hide a category button on the main Journey Mode power strip, such as Research when items don't need researching. Return false to hide it.<br/>
+	/// <paramref name="category"/> is one of the <see cref="CreativeCategoryID"/> values, or the <see cref="ModCreativeCategory.Type"/> of a modded category.<para/>
+	/// Called on clients each time the power menu is built, which happens when the game starts and whenever mods are reloaded, so the result should not change during play.
+	/// </summary>
+	public virtual bool CanShowCreativeCategory(int category) => true;
 
 	/// <summary>
 	/// Called after interface is drawn but right before mouse and mouse hover text is drawn. Allows for drawing interface.

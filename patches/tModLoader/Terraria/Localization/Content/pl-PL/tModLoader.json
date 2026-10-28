@@ -772,6 +772,10 @@
 		"PreviousInfoAccPage": "Poprzednia strona",
 		"FirstInfoAccPage": "Przejdź do pierwszej strony",
 		"LastInfoAccPage": "Przejdź do ostatniej strony"
+
+		// Journey Mode power menu
+		// "OpenCreativeCategory": "Open {0}",
+		// "CloseCreativeCategory": "Close {0}"
 	},
 	"CommonItemTooltip": {
 		"IncreasesDefenseBy": "Zwiększ obronę o {0}",
@@ -914,6 +918,7 @@
 		"SeedNotInfected": "Nie w świecie Oczyść ten świat",
 		"SeedNotTeamBasedSpawns": "Nie w świecie Royale z serem",
 		"SeedNotDualDungeons": "Nie w świecie Podwójnych wyzwań",
+		// "SeedFeatureMechdusa": "In a world with Mechdusa",
 
 		"Christmas": "Podczas świąt Bożego Narodzenia",
 		"Halloween": "Podczas Halloween",

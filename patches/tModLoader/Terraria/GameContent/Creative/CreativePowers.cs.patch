@@ -1,0 +1,114 @@
+--- src/TerrariaNetCore/Terraria/GameContent/Creative/CreativePowers.cs
++++ src/tModLoader/Terraria/GameContent/Creative/CreativePowers.cs
+@@ -9,6 +_,7 @@
+ using Terraria.GameInput;
+ using Terraria.Initializers;
+ using Terraria.Localization;
++using Terraria.ModLoader;
+ using Terraria.Net;
+ using Terraria.UI;
+ 
+@@ -150,6 +_,7 @@
+ 			groupOptionButton.OnLeftClick += button_OnClick;
+ 			groupOptionButton.OnUpdate += button_OnUpdate;
+ 			elements.Add(groupOptionButton);
++			SystemLoader.ModifyCreativePowerButton(this, groupOptionButton);
+ 		}
+ 
+ 		private void button_OnUpdate(UIElement affectedElement)
+@@ -162,6 +_,7 @@
+ 				CreativePowersHelper.AddDescriptionIfNeeded(ref originalText, _powerNameKey + "_Description");
+ 				CreativePowersHelper.AddUnlockTextIfNeeded(ref originalText, GetIsUnlocked(), _powerNameKey + "_Unlock");
+ 				CreativePowersHelper.AddPermissionTextIfNeeded(this, ref originalText);
++				SystemLoader.ModifyCreativePowerHoverText(this, ref originalText);
+ 				Main.instance.MouseTextNoOverride(originalText, 0, 0);
+ 			}
+ 		}
+@@ -291,6 +_,7 @@
+ 				CreativePowersHelper.AddDescriptionIfNeeded(ref originalText, _powerNameKey + "_Description");
+ 				CreativePowersHelper.AddUnlockTextIfNeeded(ref originalText, GetIsUnlocked(), _powerNameKey + "_Unlock");
+ 				CreativePowersHelper.AddPermissionTextIfNeeded(this, ref originalText);
++				SystemLoader.ModifyCreativePowerHoverText(this, ref originalText);
+ 				Main.instance.MouseTextNoOverride(originalText, 0, 0);
+ 			}
+ 
+@@ -381,6 +_,7 @@
+ 			groupOptionButton.OnLeftClick += button_OnClick;
+ 			groupOptionButton.OnUpdate += button_OnUpdate;
+ 			elements.Add(groupOptionButton);
++			SystemLoader.ModifyCreativePowerButton(this, groupOptionButton);
+ 		}
+ 
+ 		private void button_OnUpdate(UIElement affectedElement)
+@@ -390,6 +_,7 @@
+ 				CreativePowersHelper.AddDescriptionIfNeeded(ref originalText, _descriptionKey);
+ 				CreativePowersHelper.AddUnlockTextIfNeeded(ref originalText, GetIsUnlocked(), _powerNameKey + "_Unlock");
+ 				CreativePowersHelper.AddPermissionTextIfNeeded(this, ref originalText);
++				SystemLoader.ModifyCreativePowerHoverText(this, ref originalText);
+ 				Main.instance.MouseTextNoOverride(originalText, 0, 0);
+ 			}
+ 		}
+@@ -460,6 +_,7 @@
+ 			groupOptionButton.OnLeftClick += button_OnClick;
+ 			groupOptionButton.OnUpdate += button_OnUpdate;
+ 			elements.Add(groupOptionButton);
++			SystemLoader.ModifyCreativePowerButton(this, groupOptionButton);
+ 		}
+ 
+ 		private void button_OnUpdate(UIElement affectedElement)
+@@ -473,6 +_,7 @@
+ 				CreativePowersHelper.AddDescriptionIfNeeded(ref originalText, buttonTextKey + "_Description");
+ 				CreativePowersHelper.AddUnlockTextIfNeeded(ref originalText, GetIsUnlocked(), buttonTextKey + "_Unlock");
+ 				CreativePowersHelper.AddPermissionTextIfNeeded(this, ref originalText);
++				SystemLoader.ModifyCreativePowerHoverText(this, ref originalText);
+ 				Main.instance.MouseTextNoOverride(originalText, 0, 0);
+ 			}
+ 		}
+@@ -587,6 +_,7 @@
+ 				CreativePowersHelper.AddDescriptionIfNeeded(ref originalText, _powerNameKey + "_Description");
+ 				CreativePowersHelper.AddUnlockTextIfNeeded(ref originalText, GetIsUnlocked(), _powerNameKey + "_Unlock");
+ 				CreativePowersHelper.AddPermissionTextIfNeeded(this, ref originalText);
++				SystemLoader.ModifyCreativePowerHoverText(this, ref originalText);
+ 				Main.instance.MouseTextNoOverride(originalText, 0, 0);
+ 			}
+ 
+@@ -891,6 +_,7 @@
+ 			if (affectedElement.IsMouseHovering) {
+ 				string originalText = "x" + TargetTimeRate;
+ 				CreativePowersHelper.AddPermissionTextIfNeeded(this, ref originalText);
++				SystemLoader.ModifyCreativePowerHoverText(this, ref originalText);
+ 				Main.instance.MouseTextNoOverride(originalText, 0, 0);
+ 			}
+ 		}
+@@ -1033,6 +_,7 @@
+ 			if (affectedElement.IsMouseHovering) {
+ 				string originalText = "x" + StrengthMultiplierToGiveNPCs.ToString("F2");
+ 				CreativePowersHelper.AddPermissionTextIfNeeded(this, ref originalText);
++				SystemLoader.ModifyCreativePowerHoverText(this, ref originalText);
+ 				Main.instance.MouseTextNoOverride(originalText, 0, 0);
+ 			}
+ 
+@@ -1174,6 +_,7 @@
+ 					originalText += Language.GetTextValue("GameUI.WestWind", num);
+ 
+ 				CreativePowersHelper.AddPermissionTextIfNeeded(this, ref originalText);
++				SystemLoader.ModifyCreativePowerHoverText(this, ref originalText);
+ 				Main.instance.MouseTextNoOverride(originalText, 0, 0);
+ 			}
+ 		}
+@@ -1288,6 +_,7 @@
+ 			if (affectedElement.IsMouseHovering) {
+ 				string originalText = Main.maxRaining.ToString("P0");
+ 				CreativePowersHelper.AddPermissionTextIfNeeded(this, ref originalText);
++				SystemLoader.ModifyCreativePowerHoverText(this, ref originalText);
+ 				Main.instance.MouseTextNoOverride(originalText, 0, 0);
+ 			}
+ 		}
+@@ -1527,6 +_,7 @@
+ 					originalText = Language.GetTextValue(_powerNameKey + "EnemySpawnsDisabled");
+ 
+ 				CreativePowersHelper.AddPermissionTextIfNeeded(this, ref originalText);
++				SystemLoader.ModifyCreativePowerHoverText(this, ref originalText);
+ 				Main.instance.MouseTextNoOverride(originalText, 0, 0);
+ 			}
+ 		}
