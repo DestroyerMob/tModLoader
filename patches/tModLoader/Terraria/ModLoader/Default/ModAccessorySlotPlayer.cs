@@ -46,6 +46,38 @@ public sealed class ModAccessorySlotPlayer : ModPlayer
 	/// </summary>
 	public int LoadedSlotCount => Loader.TotalCount;
 
+	/// <summary>
+	/// The functional items equipped in this player's <see cref="ModAccessorySlot"/>s, indexed by <see cref="ModAccessorySlot.Type"/>. <see cref="ModAccessorySlot"/> corollary to the accessory slots of <see cref="Player.armor"/>.
+	/// <br/><br/> Unlike <see cref="ModAccessorySlot.FunctionalItem"/>, this always accesses this player, regardless of <see cref="Main.CurrentPlayer"/>.
+	/// <br/><br/> The length is <see cref="SlotCount"/>. Indices at or above <see cref="LoadedSlotCount"/> belong to unloaded slots, which only exist on the local client.
+	/// <br/><br/> Changes to the local player are synced automatically. As with <see cref="Player.armor"/>, changes made to other players are not.
+	/// </summary>
+	public Span<Item> FunctionalItems => exAccessorySlot.AsSpan(0, SlotCount);
+
+	/// <summary>
+	/// The vanity items equipped in this player's <see cref="ModAccessorySlot"/>s, indexed by <see cref="ModAccessorySlot.Type"/>. <see cref="ModAccessorySlot"/> corollary to the vanity accessory slots of <see cref="Player.armor"/>.
+	/// <br/><br/> See <see cref="FunctionalItems"/> for indexing and syncing details.
+	/// </summary>
+	public Span<Item> VanityItems => exAccessorySlot.AsSpan(SlotCount, SlotCount);
+
+	/// <summary>
+	/// The dyes equipped in this player's <see cref="ModAccessorySlot"/>s, indexed by <see cref="ModAccessorySlot.Type"/>. <see cref="ModAccessorySlot"/> corollary to <see cref="Player.dye"/>.
+	/// <br/><br/> See <see cref="FunctionalItems"/> for indexing and syncing details.
+	/// </summary>
+	public Span<Item> DyeItems => exDyesAccessory;
+
+	/// <summary>
+	/// Whether the visuals of each of this player's <see cref="ModAccessorySlot"/>s are hidden, indexed by <see cref="ModAccessorySlot.Type"/>. <see cref="ModAccessorySlot"/> corollary to <see cref="Player.hideVisibleAccessory"/>.
+	/// <br/><br/> See <see cref="FunctionalItems"/> for indexing and syncing details.
+	/// </summary>
+	public Span<bool> HideVisuals => exHideAccessory;
+
+	/// <summary>
+	/// The <see cref="ModAccessorySlot"/> items stored in each of this player's equipment loadouts, indexed by loadout. <see cref="ModAccessorySlot"/> corollary to <see cref="Player.Loadouts"/>.
+	/// <br/><br/> As with <see cref="Player.Loadouts"/>, the loadout at <see cref="Player.CurrentLoadoutIndex"/> is empty, since its items are swapped into <see cref="FunctionalItems"/>, etc. while it is selected. Slots without <see cref="ModAccessorySlot.HasEquipmentLoadoutSupport"/> are always empty in every loadout.
+	/// </summary>
+	public IReadOnlyList<ExEquipmentLoadout> Loadouts => exLoadouts;
+
 	public ModAccessorySlotPlayer()
 	{
 		foreach (var slot in Loader.list) {
@@ -418,11 +450,11 @@ public sealed class ModAccessorySlotPlayer : ModPlayer
 	/// <see cref="ExEquipmentLoadout"/> holds loadout items for loadouts not in use. <see cref="ModAccessorySlot"/> corollary to <see cref="EquipmentLoadout"/>.
 	/// Note that when a loadout is selected, the items in <see cref="ExEquipmentLoadout"/> are swapped into <see cref="exAccessorySlot"/>, etc. and the loadout is left with empty Item instances. The active loadout items are stored on the player and the <see cref="ExEquipmentLoadout"/> is left empty, this is the same approach used for vanilla loadouts as well (<see cref="Player.Loadouts"/>).
 	/// </summary>
-	internal sealed class ExEquipmentLoadout
+	public sealed class ExEquipmentLoadout
 	{
 		private readonly string identifier;
 
-		public ExEquipmentLoadout(int loadoutIndex, int slotCount, EquipmentLoadout loadoutReference)
+		internal ExEquipmentLoadout(int loadoutIndex, int slotCount, EquipmentLoadout loadoutReference)
 		{
 			this.LoadoutIndex = loadoutIndex;
 			this.LoadoutReference = loadoutReference;
@@ -431,20 +463,36 @@ public sealed class ModAccessorySlotPlayer : ModPlayer
 			this.ResetAndSizeAccessoryArrays(slotCount);
 		}
 
+		/// <summary> The index of this loadout in <see cref="Player.Loadouts"/>. </summary>
 		public int LoadoutIndex { get; }
 
+		/// <summary> The vanilla <see cref="EquipmentLoadout"/> this loadout extends. </summary>
 		public EquipmentLoadout LoadoutReference { get; }
 
 		/// <inheritdoc cref="ModAccessorySlotPlayer.exAccessorySlot"/>
-		public Item[] ExAccessorySlot { get; private set; } = [];
+		internal Item[] ExAccessorySlot { get; private set; } = [];
 
 		/// <inheritdoc cref="ModAccessorySlotPlayer.exDyesAccessory"/>
-		public Item[] ExDyesAccessory { get; private set; } = [];
+		internal Item[] ExDyesAccessory { get; private set; } = [];
 
 		/// <inheritdoc cref="ModAccessorySlotPlayer.exHideAccessory"/>
-		public bool[] ExHideAccessory { get; private set; } = [];
+		internal bool[] ExHideAccessory { get; private set; } = [];
 
-		public void SaveData(TagCompound tag)
+		private int SlotCount => ExDyesAccessory.Length;
+
+		/// <summary> The functional items stored in this loadout, indexed by <see cref="ModAccessorySlot.Type"/>. Loadout corollary to <see cref="ModAccessorySlotPlayer.FunctionalItems"/>. </summary>
+		public Span<Item> FunctionalItems => ExAccessorySlot.AsSpan(0, SlotCount);
+
+		/// <summary> The vanity items stored in this loadout, indexed by <see cref="ModAccessorySlot.Type"/>. Loadout corollary to <see cref="ModAccessorySlotPlayer.VanityItems"/>. </summary>
+		public Span<Item> VanityItems => ExAccessorySlot.AsSpan(SlotCount, SlotCount);
+
+		/// <summary> The dyes stored in this loadout, indexed by <see cref="ModAccessorySlot.Type"/>. Loadout corollary to <see cref="ModAccessorySlotPlayer.DyeItems"/>. </summary>
+		public Span<Item> DyeItems => ExDyesAccessory;
+
+		/// <summary> Whether the visuals of each slot are hidden in this loadout, indexed by <see cref="ModAccessorySlot.Type"/>. Loadout corollary to <see cref="ModAccessorySlotPlayer.HideVisuals"/>. </summary>
+		public Span<bool> HideVisuals => ExHideAccessory;
+
+		internal void SaveData(TagCompound tag)
 		{
 			tag[identifier] = new TagCompound {
 				["items"] = ExAccessorySlot.Select(ItemIO.Save).ToList(),
@@ -462,7 +510,7 @@ public sealed class ModAccessorySlotPlayer : ModPlayer
 		/// <param name="order">Saved slot names in order.</param>
 		/// <param name="slots">Slot name to slot info mapping.</param>
 		/// <param name="sharedLoadoutSlotTypes">Slots that don't have loadout support</param>
-		public IReadOnlyList<Item> LoadData(
+		internal IReadOnlyList<Item> LoadData(
 			TagCompound tag,
 			List<string> order,
 			Dictionary<string, int> slots,

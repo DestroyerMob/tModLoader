@@ -1624,6 +1624,18 @@ Mods: {
 				NotInteger: "{0} is not a correct integer value."
 			}
 
+			ExampleAccessorySlotsCommand: {
+				Usage:
+					'''
+					/modslots [player name]
+					player name — Player to inspect. Defaults to yourself.
+					'''
+				Description: Lists the items in a player's modded accessory slots, including their other loadouts
+				PlayerNotFound: No active player named {0}
+				Header: "{0}'s modded accessory slots (functional, vanity, dye):"
+				Loadout: "Loadout {0}: {1}"
+			}
+
 			ExampleCoinsCommand.Description: Show the coin rate UI
 
 			ExampleItemCommand: {

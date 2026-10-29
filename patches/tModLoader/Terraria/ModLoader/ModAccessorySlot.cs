@@ -56,6 +56,7 @@ public abstract class ModAccessorySlot : ModType
 	/// <summary>
 	/// The functional item of this equipment slot.
 	/// <br/><br/> This property always accesses the equipment of the current player, see <see cref="Player"/> for more info.
+	/// To access a specific player, use <c>player.GetModPlayer&lt;ModAccessorySlotPlayer&gt;().FunctionalItems[Type]</c> instead, see <see cref="ModAccessorySlotPlayer.FunctionalItems"/>.
 	/// </summary>
 	public Item FunctionalItem {
 		get => ModSlotPlayer.exAccessorySlot[Type];
@@ -65,6 +66,7 @@ public abstract class ModAccessorySlot : ModType
 	/// <summary>
 	/// The vanity item of this equipment slot.
 	/// <br/><br/> This property always accesses the equipment of the current player, see <see cref="Player"/> for more info.
+	/// To access a specific player, use <c>player.GetModPlayer&lt;ModAccessorySlotPlayer&gt;().VanityItems[Type]</c> instead, see <see cref="ModAccessorySlotPlayer.VanityItems"/>.
 	/// </summary>
 	public Item VanityItem {
 		get => ModSlotPlayer.exAccessorySlot[Type + ModSlotPlayer.SlotCount];
@@ -74,6 +76,7 @@ public abstract class ModAccessorySlot : ModType
 	/// <summary>
 	/// The dye item of this equipment slot.
 	/// <br/><br/> This property always accesses the equipment of the current player, see <see cref="Player"/> for more info.
+	/// To access a specific player, use <c>player.GetModPlayer&lt;ModAccessorySlotPlayer&gt;().DyeItems[Type]</c> instead, see <see cref="ModAccessorySlotPlayer.DyeItems"/>.
 	/// </summary>
 	public Item DyeItem {
 		get => ModSlotPlayer.exDyesAccessory[Type];
@@ -83,6 +86,7 @@ public abstract class ModAccessorySlot : ModType
 	/// <summary>
 	/// Indicates if the corresponding <see cref="FunctionalItem"/> is set to be hidden or not.
 	/// <br/><br/> This property always accesses the equipment of the current player, see <see cref="Player"/> for more info.
+	/// To access a specific player, use <c>player.GetModPlayer&lt;ModAccessorySlotPlayer&gt;().HideVisuals[Type]</c> instead, see <see cref="ModAccessorySlotPlayer.HideVisuals"/>.
 	/// </summary>
 	public bool HideVisuals {
 		get => ModSlotPlayer.exHideAccessory[Type];
