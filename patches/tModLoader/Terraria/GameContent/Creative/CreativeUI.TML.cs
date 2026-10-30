@@ -1,3 +1,5 @@
+using Terraria.ID;
+using Terraria.ModLoader;
 using Terraria.UI;
 
 namespace Terraria.GameContent.Creative;
@@ -8,6 +10,11 @@ public partial class CreativeUI
 	/// The main category selected in the power menu, or 0 if none is. Vanilla builds a new menu, with nothing selected, after each world is entered.
 	/// </summary>
 	internal int CurrentMainCategory => _initialized ? _uiState?.CurrentMainCategory ?? 0 : 0;
+
+	/// <summary>
+	/// Whether <paramref name="player"/> can open the power menu. Vanilla only allows Journey characters, which mods can change with <see cref="ModSystem.CanUseCreativeMenu"/>.
+	/// </summary>
+	public static bool IsAvailableFor(Player player) => SystemLoader.CanUseCreativeMenu(player) ?? player.difficulty == PlayerDifficultyID.Creative;
 
 	/// <summary>
 	/// Discards the power menu so it's built again on the next draw. Used when mods unload, so the menu doesn't keep references to their content.

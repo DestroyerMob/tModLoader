@@ -138,6 +138,8 @@ partial class SystemLoader
 
 	private static HookList HookCanShowCreativeCategory = AddHook<Func<int, bool>>(s => s.CanShowCreativeCategory);
 
+	private static HookList HookCanUseCreativeMenu = AddHook<Func<Player, bool?>>(s => s.CanUseCreativeMenu);
+
 	private static HookList HookPostDrawInterface = AddHook<Action<SpriteBatch>>(s => s.PostDrawInterface);
 
 	private static HookList HookPostUpdateInput = AddHook<Action>(s => s.PostUpdateInput);
