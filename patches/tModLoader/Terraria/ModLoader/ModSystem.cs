@@ -299,6 +299,14 @@ public abstract partial class ModSystem : ModType
 	public virtual bool CanShowCreativeCategory(int category) => true;
 
 	/// <summary>
+	/// Allows you to show the Journey Mode power menu for characters that aren't Journey characters, or hide it for ones that are. Return true to allow it, false to prevent it, or null to use vanilla's rule.<br/>
+	/// Outside Journey Mode some vanilla powers still work, such as God Mode and the time powers, while others only apply in Journey worlds or to Journey characters. Use <see cref="CanShowCreativeCategory"/> to hide categories that don't make sense for the player.<br/>
+	/// Vanilla resets a character's personal powers, such as God Mode, whenever a character that isn't a Journey character is loaded, so they don't persist between sessions for those characters.<para/>
+	/// Called on clients every frame while the inventory is open, and when the power menu keybind is pressed.
+	/// </summary>
+	public virtual bool? CanUseCreativeMenu(Player player) => null;
+
+	/// <summary>
 	/// Called after interface is drawn but right before mouse and mouse hover text is drawn. Allows for drawing interface.
 	/// Note: This hook should no longer be used. It is better to use the ModifyInterfaceLayers hook.
 	/// <para/> Called on all clients.
