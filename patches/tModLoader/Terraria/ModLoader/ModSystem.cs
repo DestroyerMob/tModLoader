@@ -270,34 +270,38 @@ public abstract partial class ModSystem : ModType
 	public virtual void ModifyGameTipVisibility(IReadOnlyList<GameTipData> gameTips) { }
 
 	/// <summary>
-	/// Allows you to modify the button the Journey Mode power menu creates for a power, such as God Mode or Freeze Time, for example to add a right click action, extra hover text or different colors.<para/>
+	/// Allows you to modify the button the Journey Mode power menu creates for a vanilla power, such as God Mode or Freeze Time, for example to add a right click action, extra hover text or different colors. Modded powers are <see cref="ModCreativePower"/>s instead.<para/>
 	/// <paramref name="button"/> is a <see cref="GroupOptionButton{T}"/> of <see cref="bool"/> for powers used by clicking them, and of <see cref="int"/> for powers that open a slider, such as Time Speed.
-	/// Use <see cref="CreativePowerManager.GetPower{T}"/> to check which power it belongs to.<br/>
-	/// Handlers you add to the button's events run after vanilla's, so colors set in <see cref="UIElement.OnUpdate"/> replace vanilla's. Use <see cref="ModifyCreativePowerHoverText"/> to change its hover text.<para/>
-	/// Called on clients each time the power menu is built, which happens when the game starts and whenever mods are reloaded.
+	/// Check the type of <paramref name="power"/> to see which power it belongs to, such as <c>power is CreativePowers.GodmodePower</c>.<br/>
+	/// Handlers you add to <see cref="UIElement.OnUpdate"/> run after vanilla's, so colors set there replace vanilla's. For slider buttons, vanilla adds its <see cref="UIElement.OnLeftClick"/> handler after this hook, so yours run before it opens or closes the slider. Use <see cref="ModifyCreativePowerHoverText"/> to change the hover text.<br/>
+	/// In multiplayer the server can restrict who may use each power. Check <see cref="CreativePowersHelper.IsAvailableForPlayer"/> before doing anything on the power's behalf.<para/>
+	/// Called on clients each time the power menu is built, which happens each time a world is entered.
 	/// </summary>
 	/// <param name="power">The power the button uses.</param>
 	/// <param name="button">The button, before it's added to the menu.</param>
 	public virtual void ModifyCreativePowerButton(ICreativePower power, UIElement button) { }
 
 	/// <summary>
-	/// Allows you to modify the hover text a Journey Mode power shows, both on its button and on its slider if it has one.<br/>
+	/// Allows you to modify the hover text a vanilla Journey Mode power shows, both on its button and on its slider if it has one.<br/>
 	/// Called on clients every frame the power is hovered.
 	/// </summary>
-	/// <param name="power">The power being hovered. Use <see cref="CreativePowerManager.GetPower{T}"/> to check which power it is.</param>
-	/// <param name="text">The hover text, including the description and permission lines vanilla adds.</param>
+	/// <param name="power">The power being hovered. Check its type to see which power it is, such as <c>power is CreativePowers.GodmodePower</c>.</param>
+	/// <param name="text">The hover text, including the description, unlock and permission lines vanilla adds.</param>
 	public virtual void ModifyCreativePowerHoverText(ICreativePower power, ref string text) { }
 
 	/// <summary>
 	/// Allows you to hide a category button on the main Journey Mode power strip, such as Research when items don't need researching. Return false to hide it.<br/>
-	/// <paramref name="category"/> is one of the <see cref="CreativeCategoryID"/> values, or the <see cref="ModCreativeCategory.Type"/> of a modded category.<para/>
-	/// Called on clients each time the power menu is built, which happens when the game starts, when mods are reloaded and when entering a world. It can depend on <see cref="Main.LocalPlayer"/> and the world, but shouldn't change while in one.
+	/// <paramref name="category"/> is one of the <see cref="CreativeCategoryID"/> values, or the <see cref="ModCreativeCategory.Type"/> of a modded category.<br/>
+	/// If any mod returns false the category is hidden, and other mods can't show it again. Hiding a category also hides any modded powers placed in its strip.<br/>
+	/// To decide based on whether another category is shown, use <see cref="CreativeMenuLoader.IsCategoryShown"/>. It gives every mod the same answer and can't loop forever.<para/>
+	/// Called on clients each time the power menu is built, which happens each time a world is entered. It can depend on <see cref="Main.LocalPlayer"/> and the world, but shouldn't change while in one.
 	/// </summary>
 	public virtual bool CanShowCreativeCategory(int category) => true;
 
 	/// <summary>
 	/// Allows you to show the Journey Mode power menu for characters that aren't Journey characters, or hide it for ones that are. Return true to allow it, false to prevent it, or null to use vanilla's rule.<br/>
-	/// Outside Journey Mode some vanilla powers still work, such as God Mode and the time powers, while others only apply in Journey worlds or to Journey characters. Use <see cref="CanShowCreativeCategory"/> to hide categories that don't make sense for the player.<para/>
+	/// Outside Journey Mode some vanilla powers still work, such as God Mode and the time powers, while others only apply in Journey worlds or to Journey characters. Use <see cref="CanShowCreativeCategory"/> to hide categories that don't make sense for the player.<br/>
+	/// Vanilla resets a character's personal powers, such as God Mode, whenever a character that isn't a Journey character is loaded, so they don't persist between sessions for those characters.<para/>
 	/// Called on clients every frame while the inventory is open, and when the power menu keybind is pressed.
 	/// </summary>
 	public virtual bool? CanUseCreativeMenu(Player player) => null;

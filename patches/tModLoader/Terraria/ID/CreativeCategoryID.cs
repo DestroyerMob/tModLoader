@@ -12,5 +12,5 @@ public static class CreativeCategoryID
 	public const int Weather = 4;
 	public const int Difficulty = 5;
 	public const int Personal = 6;
-	public const int Count = 7;
+	public static readonly int Count = 7;
 }

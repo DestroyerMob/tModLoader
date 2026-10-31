@@ -21,7 +21,7 @@
  			Initialize();
  
 -		if (Main.LocalPlayer.difficulty != 3) {
-+		if (!IsAvailableFor(Main.LocalPlayer)) {
++		if (!IsAvailableFor(Main.LocalPlayer)) { // TML: #CreativeMenuAccess - difficulty != 3 -> !IsAvailableFor
  			Enabled = false;
  		}
  		else if (!Blocked) {

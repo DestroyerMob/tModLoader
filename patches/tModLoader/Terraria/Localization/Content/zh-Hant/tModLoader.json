@@ -774,8 +774,10 @@
 		"LastInfoAccPage": "轉到最後一頁"
 
 		// Journey Mode power menu
-		// "OpenCreativeCategory": "Open {0}",
-		// "CloseCreativeCategory": "Close {0}"
+		// "CreativeMenuOpen": "Open {0}",
+		// "CreativeMenuClose": "Close {0}",
+		// "CreativePowerEnabled": "{0} Enabled",
+		// "CreativePowerDisabled": "{0} Disabled"
 	},
 	"CommonItemTooltip": {
 		"IncreasesDefenseBy": "防禦力增加{0}點",

@@ -38,6 +38,8 @@ The `Item` class has had the in-world functionality split into a new `WorldItem`
 
 Hooks that deal with items in the game world will now have a `WorldItem item` parameter as well. This will require modders to switch from `Item` to `item` in various `ModItem` classes if dealing with the fields that are now on `WorldItem`.
 
+`Item.width` and `Item.height` no longer have any relation to the in-world hitbox of dropped items. All items now have a 16x16 hitbox in the game world. You may need to adjust custom glowmask drawing (`ModItem.PostDrawInWorld`) to account for this change if it is now incorrectly drawn by changing `Item.width/height` to `WorldItem.width/height`.
+
 ### Item.NewItem
 
 `Item.NewItem` has been reworked.
@@ -403,6 +405,7 @@ Japanese ("ja-JP"), Korean ("ko-KR"), and Traditional Chinese ("zh-Hant") have b
 ## Other Changes
 
 * Fishing power bonus now applies to any chair, not just toilets.
+* `EntitySource_FishedOut` is now used for fished up items instead of just NPC spawns that result from fishing.
 * `ICameraModifier` now has a `IsAScreenShake` property to support the user's screen shake accessibility setting (`Main.UseScreenShake`). Update your `ICameraModifier` and other camera movements to support `Main.UseScreenShake`.
 * `Main.sign` length changed from 1000 to 32000.
 * Shaders no longer need to declare every possible input, missing inputs will be ignored now.
@@ -456,6 +459,7 @@ Japanese ("ja-JP"), Korean ("ko-KR"), and Traditional Chinese ("zh-Hant") have b
 * `ProjectileID.Sets.Explosive` and `PrepareBombToBlow` behavior have changed. `Projectile.Kill()` will now automatically call `PrepareBombToBlow` if `Projectile.ai[0]` isn't `1000` (see above). Replace `Projectile.PrepareBombToBlow` with `Projectile.Kill`. Explosives should also set `Projectile.timeLeft = 5;` in `AI` for projectiles not owned by the client to facilitate better multiplayer sync behavior. Modders should consult relevant ExampleMod `ModProjectile` examples and adjust accordingly.
 * Zooming with items like Rifle Scope and Sniper Rifle, and Binoculars has changed. There is now a "Forward Zoom" toggle in the controls menu to change how zooming is triggered (Always On, Always Off, Click to Toggle, and Hold to Use). As such, `ModPlayer.ModifyZoom` has been adjusted with a new `needsMouseRight` parameter. Remove all checks for the right mouse being held down to correctly support these new control options.
 * An ammo cycling (given by Chaos Cylinder) feature has been added.
+* Pylons no longer require happiness to be sold
 
 ### Example Mod
 
@@ -623,6 +627,7 @@ All classes are in the `Terraria.ModLoader` or `Terraria` namespaces unless othe
 * ⚙️: `(ModProjectile|GlobalProjectile).PreDraw/PreDrawExtras/PostDraw` now has a `Player` parameter. Use this instead of `Main.player[Projectile.owner]` to properly support rendering projectiles to custom `Player` instances, such as Mannequins.
 * ⚙️: `ModPylon.ValidTeleportCheck_AnyDanger` and `GlobalPylon.ValidTeleportCheck_PreAnyDanger` have been removed. Pylons no longer check for danger when teleporting.
 * 🤖: `ModPylon.DefaultDrawMapIcon` now has an `out bool onScreen` parameter, which should be passed as the new second parameter of `ModPylon.DefaultMapClickHandle`. On the fullscreen map, off-screen modded pylon icons are now clamped to the edge of the screen like vanilla pylons, and clicking them pans the map instead of teleporting.
+* ⚙️: `ModPylon.GetNPCShopEntry` no longer uses `Condition.HappyEnoughToSellPylons` to match vanilla changes. `Condition.HappyEnough` and `Condition.HappyEnoughToSellPylons` have been removed in favor of the more customizable `Condition.CurrentPriceAdjustmentUnder` and `Condition.CurrentPriceAdjustmentOver`.
 * 🤖: `ModTile.AddToArray` is no longer used for `TileID.Sets.RoomNeeds` entries since `TileID.Sets.RoomNeeds` fields have changed to typical ID sets.
 * `NPCLoader.blockLoot` can now affect all drops such as coins, hearts, etherian mana, and skyblock specific drops. Before it could only affect loot table drops.
 * ⚙️: `NPCSpawnInfo` is no longer used, it has been replaced by `NPC.Spawner` in functionality.
@@ -664,6 +669,9 @@ In addition to changes to existing features and adapting to vanilla changes, 1.4
 * `ModPlayer.ModifyHitboxSize` allows changing the size of a player's hitbox, which vanilla otherwise resets to 20x42 every update. See [`ExampleHitboxSizeAccessory`](https://github.com/tModLoader/tModLoader/blob/1.4.5/ExampleMod/Content/Items/Accessories/ExampleHitboxSizeAccessory.cs).
 * `ModSky` is an alternative to `CustomSky` that handles common boilerplate, making custom skies easier to implement and use.
 * `TileID.Sets.ChestSlotCount` sets how many slots newly placed chests and dressers of a tile type get, using the variable chest sizes added in vanilla 1.4.5. Chests with more slots than fit on screen can be scrolled with the mouse wheel or new up and down buttons. `TileID.Sets.HideChestScrollButtons` hides the buttons and `ModTile.CanScrollChest` can stop mouse wheel scrolling. ExampleChest now has 80 slots.
+* `ModCreativeCategory` adds categories to the Journey Mode power strip, next to vanilla's Duplication, Research, Time, Weather and Personal categories. `ModCreativeToggle`, `ModCreativeButton` and `ModCreativeSlider` add powers to the main strip, to vanilla's Time, Weather and Personal strips, or to a modded category's strip. See `ExampleCreativeCategory` and the powers in `ExampleMod/Content/CreativePowers`.
+* `ModSystem.ModifyCreativePowerButton`, `ModSystem.ModifyCreativePowerHoverText` and `ModSystem.CanShowCreativeCategory` allow changing the buttons and hover text of vanilla Journey Mode powers and hiding categories, which previously needed detours. See `ExampleCreativePowersSystem`.
+* `ModSystem.CanUseCreativeMenu` allows showing the Journey Mode power menu for characters that aren't Journey characters, or hiding it for ones that are.
 * `(Mod|Global)(Tile|Wall).(CanDoWireStuffHere|CanShowWireStuffHere)` hooks allow customizing wire interaction and visibility. One example is how wires in the Jungle Temple are hidden and can't be removed until Golem is defeated.
 * `ModSystem.PostDrawDust` allows drawing effects above dust, which previously needed a detour on `Main.DrawDust`.
 * `(Mod|Global)Liquid` is a net new feature class added in 1.4.5 to support new use cases. This addition comes with the caveat it is runtime breaking; all mods using ModWall or ModTile must be compiled on 1.4.5 to adapt to intertwined backend class hierachy changes to facilitate this.   

@@ -465,7 +465,7 @@ public static partial class SystemLoader
 		}
 	}
 
-	public static bool CanShowCreativeCategory(int category)
+	internal static bool CanShowCreativeCategory(int category)
 	{
 		foreach (var system in HookCanShowCreativeCategory.Enumerate()) {
 			if (!system.CanShowCreativeCategory(category))

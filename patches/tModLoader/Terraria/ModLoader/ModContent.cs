@@ -377,7 +377,6 @@ public static class ModContent
 		MapLoader.FinishSetup();
 		PlantLoader.FinishSetup();
 		RarityLoader.FinishSetup();
-		CreativeCategoryLoader.FinishSetup();
 		Config.ConfigManager.FinishSetup();
 
 		SystemLoader.ModifyGameTipVisibility(Main.gameTipsProvider.allTips);
@@ -520,7 +519,7 @@ public static class ModContent
 	internal static void UnloadModContent()
 	{
 		MenuLoader.Unload(); //do this early, so modded menus won't be active when unloaded
-		CreativeCategoryLoader.Unload();
+		CreativeMenuLoader.Unload();
 		CloudLoader.Unload();
 
 		int i = 0;
